@@ -5,7 +5,7 @@ import path from "path";
 import { Server } from "socket.io";
 
 dotenv.config();
-const PORT = process.env.NODE_PORT;
+const PORT = process.env.NODE_PORT || 3000;
 
 const app = express();
 
@@ -17,9 +17,8 @@ app.get('/', (_req, res) => {
     res.sendFile(filePath);
 });
 
-app.get('/socket.io/socket.io.js', (req, res) => {
-    res.sendFile(__dirname + '/node_modules/socket.io/client-dist/socket.io.js');
-});
+app.use('/socket.io', express.static(path.join(__dirname, 'node_modules/socket.io/client-dist')));
+
 
 io.on('connection', (socket) => {
     socket.on('chat message', (msg) => {
