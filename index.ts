@@ -10,6 +10,8 @@ const PORT = process.env.NODE_PORT || 3000;
 
 const app = express();
 
+app.use(cors());
+
 const server = createServer(app);
 const io = new Server(server, {
     cors: {
@@ -17,7 +19,6 @@ const io = new Server(server, {
     }
 });
 
-app.use(cors());
 
 app.get('/', (_req, res) => {
     const filePath = path.join(process.cwd(), 'index.html');
