@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import cors from 'cors'
 import express from "express";
 import { createServer } from "http";
 import path from "path";
@@ -16,13 +17,12 @@ const io = new Server(server, {
     }
 });
 
+app.use(cors());
+
 app.get('/', (_req, res) => {
     const filePath = path.join(process.cwd(), 'index.html');
     res.sendFile(filePath);
 });
-
-app.use('/socket.io', express.static(path.join(__dirname, 'node_modules/socket.io/client-dist')));
-
 
 io.on('connection', (socket) => {
     socket.on('chat message', (msg) => {
